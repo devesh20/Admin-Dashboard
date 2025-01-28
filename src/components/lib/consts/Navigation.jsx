@@ -6,8 +6,10 @@ import {
 	HiOutlineDocumentText,
 	HiOutlineAnnotation,
 	HiOutlineQuestionMarkCircle,
-	HiOutlineCog
+	HiOutlineCog,
+	
 } from 'react-icons/hi'
+import { HiOutlineCalendar } from 'react-icons/hi2'
 
 export const DASHBOARD_SIDEBAR_LINKS = [
 	{
@@ -29,9 +31,9 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		icon: <HiOutlineShoppingCart />
 	},
 	{
-		key: 'customers',
-		label: 'Customers',
-		path: '/customers',
+		key: 'workers',
+		label: 'Workers',
+		path: '/workers',
 		icon: <HiOutlineUsers />
 	},
 	{
@@ -41,10 +43,10 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		icon: <HiOutlineDocumentText />
 	},
 	{
-		key: 'messages',
-		label: 'Messages',
-		path: '/messages',
-		icon: <HiOutlineAnnotation />
+		key: 'calendar',
+		label: 'Calendar',
+		path: '/calendar',
+		icon: <HiOutlineCalendar/>
 	}
 ]
 

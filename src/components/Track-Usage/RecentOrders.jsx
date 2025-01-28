@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { getOrderStatus } from '../lib/consts'
 
 const recentOrderData = [
 	{
@@ -85,12 +87,20 @@ function RecentOrders() {
                     {recentOrderData.map((order) => (
                         <tr key={order.id}>
                             <td>#{order.id}</td>
-                            <td>{order.product_id}</td>
+                            <td>
+								<Link to={'/products/${order.product_id}'}>{order.product_id}</Link>
+							</td>
                             <td>{order.customer_name}</td>
-                            <td>{order.order_date}</td>
+                            <td>
+								{new Intl.DateTimeFormat('en-US', {
+								year: 'numeric',
+								month: 'short', // 'long', 'short', or 'narrow' for full/short month names
+								day: '2-digit',
+								}).format(new Date(order.order_date))}
+							</td>
                             <td>{order.order_total}</td>
                             <td>{order.shipment_address}</td>
-                            <td>{order.current_order_status}</td>
+                            <td>{getOrderStatus(order.current_order_status)}</td>
 
                         </tr>
                     ))}

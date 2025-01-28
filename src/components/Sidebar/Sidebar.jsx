@@ -9,10 +9,10 @@ const linkClass ='flex items-center gap-2 font-light px-3 py-2 hover:bg-neutral-
 
 function Sidebar() {
   return (
-    <div className='bg-neutral-900 w-60 p-3 flex flex-col text-white'>
+    <div className='bg-neutral-900 p-3 flex flex-col text-white w-[12rem] h-[fvh] overflow-x-auto'>
       <div className='flex items-center px-1 py-3 gap-2 '>
-        <FcBullish fontSize={24} />
-        <span className='text-neutral-100 text-md'>Admin Dashboard</span>
+        {/* <FcBullish fontSize={24} /> */}
+        <span className='text-neutral-100 text-md text-nowrap'>Admin Dashboard</span>
       </div>
       <div className='flex-1 py-6 gap-1 flex flex-col border-t border-neutral-700'>
         {DASHBOARD_SIDEBAR_LINKS.map((item) => (
