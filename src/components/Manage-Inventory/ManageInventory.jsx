@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'
-import { Table, Popconfirm, Button, Space, Form } from 'antd'
-import { isElement, isEmpty } from 'lodash'
-import { data } from 'autoprefixer'
+import { Table, Popconfirm, Button, Space, Form, Input } from 'antd'
+import { isEmpty } from 'lodash'
+
 
 
 function ManageInventory() {
@@ -10,6 +10,7 @@ function ManageInventory() {
     const [loading, setLoading] = useState(false)
     const [editingKey, setEditingKey] = useState("")
     const [editRow, setEdit] = useState(false)
+    const [form] = Form.useForm()
 
     useEffect(() => {
         loadData()
@@ -38,6 +39,75 @@ function ManageInventory() {
         }
     ))
     
+    const edit = (record) => {
+        form.setFieldsValue({
+            name: record.name || "",
+            email: record.email || "",
+            comment: record.comment || "",
+            ...record
+        });
+        setEditingKey(record.key)
+        setEdit(true)
+    };
+
+    const cancel = () => {
+        setEditingKey("")
+
+    }
+
+    const save = async (key) => {
+        try{
+            const row = await form.validateFields()
+            const newData = [...modifiedData]
+            const index = newData.findIndex((item) => key === item.key)
+            if(index > -1){
+                const item = newData[index]
+                newData.splice(index, 1, {...item, ...row})
+                setGridData(newData)
+                setEditingKey("")
+            }
+        }catch(error) {
+            console.log("Error", error);
+            
+        }
+    };
+
+    const editableCell = ({
+        editing,
+        dataIndex,
+        title,
+        record,
+        children,
+        ...restProps
+
+    }) => {
+        const input = <Input/>
+        return (
+            <td {...restProps}>
+                {editing ? 
+                (
+                    <Form.Item
+                    name={dataIndex}
+                    style={{
+                        margin: 0
+                    }}
+                    rules={[
+                        {
+                            required: true,
+                            message: `Please input ${title}`,
+                        },
+                    ]}
+                    >
+                        {input}
+                    </Form.Item>
+                ) : (
+                    children
+                )
+                }
+            </td>
+        )
+    }
+
     const columns = [
         {
             title: "ID",
@@ -66,6 +136,7 @@ function ManageInventory() {
             dataIndex: "actions",
             align: "center",
             render: (_, record) => {
+                const editable = isEditing(record)
                 return modifiedData.length >= 1 ? (
                     <Space>
                     <Popconfirm
@@ -76,11 +147,11 @@ function ManageInventory() {
                             Delete
                         </Button>
                     </Popconfirm>
-                    {editRow ? (
+                    {editable ? (
                         <span>
                             <Space size={"middle"}>
                             <Button
-                            onClick={(e) => console.log(e)}
+                            onClick={(e) => save(record.key)}
                             type='primary'
                             style={{marginRight: 8}}
                             >
@@ -88,7 +159,7 @@ function ManageInventory() {
                             </Button>
                             <Popconfirm
                             title="Sure to cancel?"
-                            onConfirm={() => setEdit(false)}
+                            onConfirm={cancel}
                             >
                             <Button>Cancel</Button>
                             </Popconfirm>
@@ -96,7 +167,7 @@ function ManageInventory() {
                         </span>
 
                     ) : (
-                        <Button type='primary' onClick={() => setEdit(true)}>
+                        <Button type='primary' onClick={() => edit(record)}>
                             Edit
                         </Button>
                     )}
@@ -121,19 +192,27 @@ function ManageInventory() {
                 dataIndex: col.dataIndex,
                 title: col.title,
                 editing: isEditing(record),
-            })
+                form,
+            }),
         }
     })
     
 
   return (
     <div>
-        <Table
-        columns={mergedColumns}
-        dataSource={modifiedData}
-        bordered
-        loading={loading}
-        />
+        <Form form={form} component={false}>
+            <Table
+            components={{
+                body: {
+                    cell: editableCell,
+                },
+            }}
+            columns={mergedColumns}
+            dataSource={modifiedData}
+            bordered
+            loading={loading}
+            />
+        </Form>
 
     </div>
   )
