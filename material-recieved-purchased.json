@@ -1,0 +1,29 @@
+[
+  {
+    "material_grade_id": "MG-001",
+    "supplier_name": "ABC Metals",
+    "purchase_order_number": "PO-2024-001",
+    "material_invoice_chalan_no": "INV-56789",
+    "material_lot_no": "LOT-12345",
+    "material_quantity": 100,
+    "material_quantity_kg": 500
+  },
+  {
+    "material_grade_id": "MG-002",
+    "supplier_name": "XYZ Steels",
+    "purchase_order_number": "PO-2024-002",
+    "material_invoice_chalan_no": "INV-67890",
+    "material_lot_no": "LOT-67890",
+    "material_quantity": 200,
+    "material_quantity_kg": 1000
+  },
+  {
+    "material_grade_id": "MG-003",
+    "supplier_name": "LMN Alloys",
+    "purchase_order_number": "PO-2024-003",
+    "material_invoice_chalan_no": "INV-78901",
+    "material_lot_no": "LOT-54321",
+    "material_quantity": 150,
+    "material_quantity_kg": 750
+  }
+]
